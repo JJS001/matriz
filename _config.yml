@@ -4,8 +4,8 @@ email: contacto@matriz.com
 description: >- # this means to ignore newlines until "baseurl:"
   Un sitio web moderno para mostrar proyectos, demos y recursos.
 
-baseurl: "" # the subpath of your site, e.g. /blog
-url: "" # the base hostname & protocol for your site
+baseurl: "/matriz" # the subpath of your site, e.g. /blog
+url: "https://jjs001.github.io" # the base hostname & protocol for your site
 
 # Build settings
 markdown: kramdown
@@ -23,6 +23,12 @@ collections:
   quarto:
     output: true
     permalink: /:collection/:name/
+
+# Plugin settings
+plugins:
+  - jekyll-feed
+  - jekyll-sitemap
+  - jekyll-seo-tag
 
 # Defaults
 defaults:
