@@ -1,0 +1,48 @@
+# Site settings
+title: Matriz
+email: contacto@matriz.com
+description: >- # this means to ignore newlines until "baseurl:"
+  Un sitio web moderno para mostrar proyectos, demos y recursos.
+
+baseurl: "" # the subpath of your site, e.g. /blog
+url: "" # the base hostname & protocol for your site
+
+# Build settings
+markdown: kramdown
+highlighter: rouge
+theme: minima
+
+# Collections
+collections:
+  demos:
+    output: true
+    permalink: /:collection/:name/
+  repositorios:
+    output: true
+    permalink: /:collection/:name/
+  quarto:
+    output: true
+    permalink: /:collection/:name/
+
+# Defaults
+defaults:
+  - scope:
+      path: ""
+      type: "posts"
+    values:
+      layout: "post"
+  - scope:
+      path: ""
+      type: "pages"
+    values:
+      layout: "page"
+
+# Exclude from processing
+exclude:
+  - Gemfile
+  - Gemfile.lock
+  - node_modules
+  - vendor/bundle/
+  - vendor/cache/
+  - vendor/gems/
+  - vendor/ruby/
