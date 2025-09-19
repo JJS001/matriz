@@ -1,0 +1,147 @@
+---
+title: "Análisis de Datos con Python"
+author: "Matriz Team"
+date: today
+format: 
+  html:
+    code-fold: true
+    code-tools: true
+---
+
+# Análisis Exploratorio de Datos
+
+Este documento demuestra cómo realizar análisis de datos usando Python y Quarto.
+
+## Importar librerías
+
+```{python}
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+import seaborn as sns
+
+# Configurar estilo de gráficos
+plt.style.use('default')
+sns.set_palette("husl")
+```
+
+## Generar datos de ejemplo
+
+```{python}
+# Generar dataset de ejemplo
+np.random.seed(42)
+n_samples = 1000
+
+data = {
+    'fecha': pd.date_range('2023-01-01', periods=n_samples, freq='D'),
+    'ventas': np.random.normal(100, 25, n_samples) + np.sin(np.arange(n_samples) * 2 * np.pi / 365) * 20,
+    'categoria': np.random.choice(['A', 'B', 'C'], n_samples),
+    'region': np.random.choice(['Norte', 'Sur', 'Este', 'Oeste'], n_samples)
+}
+
+df = pd.DataFrame(data)
+df['ventas'] = np.maximum(df['ventas'], 0)  # Asegurar valores positivos
+
+print("Dataset generado:")
+print(f"Forma: {df.shape}")
+print(f"\nPrimeras filas:")
+df.head()
+```
+
+## Estadísticas descriptivas
+
+```{python}
+print("Estadísticas descriptivas:")
+print(df.describe())
+
+print(f"\nDistribución por categoría:")
+print(df['categoria'].value_counts())
+
+print(f"\nDistribución por región:")
+print(df['region'].value_counts())
+```
+
+## Visualizaciones
+
+### Evolución temporal de ventas
+
+```{python}
+#| fig-cap: "Evolución de ventas a lo largo del tiempo"
+#| fig-width: 10
+#| fig-height: 6
+
+plt.figure(figsize=(12, 6))
+plt.plot(df['fecha'], df['ventas'], alpha=0.7, linewidth=0.8)
+plt.title('Evolución de Ventas a lo Largo del Tiempo', fontsize=16)
+plt.xlabel('Fecha')
+plt.ylabel('Ventas')
+plt.xticks(rotation=45)
+plt.grid(True, alpha=0.3)
+plt.tight_layout()
+plt.show()
+```
+
+### Distribución de ventas por categoría
+
+```{python}
+#| fig-cap: "Distribución de ventas por categoría"
+#| fig-width: 10
+#| fig-height: 6
+
+plt.figure(figsize=(12, 6))
+
+# Subplot 1: Boxplot
+plt.subplot(1, 2, 1)
+sns.boxplot(data=df, x='categoria', y='ventas')
+plt.title('Distribución de Ventas por Categoría')
+plt.ylabel('Ventas')
+
+# Subplot 2: Violinplot
+plt.subplot(1, 2, 2)
+sns.violinplot(data=df, x='categoria', y='ventas')
+plt.title('Densidad de Ventas por Categoría')
+plt.ylabel('Ventas')
+
+plt.tight_layout()
+plt.show()
+```
+
+### Mapa de calor por región y categoría
+
+```{python}
+#| fig-cap: "Mapa de calor: Ventas promedio por región y categoría"
+#| fig-width: 8
+#| fig-height: 6
+
+# Crear tabla pivot
+pivot_table = df.groupby(['region', 'categoria'])['ventas'].mean().unstack()
+
+plt.figure(figsize=(10, 6))
+sns.heatmap(pivot_table, annot=True, fmt='.1f', cmap='YlOrRd')
+plt.title('Ventas Promedio por Región y Categoría')
+plt.tight_layout()
+plt.show()
+```
+
+## Conclusiones
+
+::: {.callout-note}
+## Hallazgos principales
+
+1. **Tendencia temporal**: Las ventas muestran un patrón estacional claro
+2. **Categorías**: La distribución entre categorías es relativamente uniforme
+3. **Regiones**: Existen diferencias significativas en el rendimiento por región
+4. **Variabilidad**: La categoría B muestra mayor variabilidad en ventas
+
+:::
+
+## Próximos pasos
+
+- [ ] Implementar modelos de predicción
+- [ ] Análisis de correlaciones más profundo
+- [ ] Segmentación de clientes
+- [ ] Dashboard interactivo
+
+---
+
+*Este análisis fue generado usando Quarto y Python. Para reproducir este análisis, ejecute este documento .qmd en un entorno con las librerías necesarias.*

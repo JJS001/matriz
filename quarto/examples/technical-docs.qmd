@@ -1,0 +1,319 @@
+---
+title: "Documentación Técnica"
+author: "Matriz Team"
+date: today
+format: 
+  html:
+    code-fold: false
+    code-tools: true
+    toc: true
+---
+
+# Guía de Documentación Técnica
+
+Esta guía demuestra cómo crear documentación técnica efectiva usando Quarto.
+
+## Estructura de Documentación
+
+### 1. Introducción y Contexto
+
+::: {.callout-note}
+## Propósito del documento
+
+Esta documentación sirve como ejemplo de cómo estructurar documentación técnica usando Quarto, incluyendo código ejecutable, diagramas y referencias cruzadas.
+:::
+
+### 2. Instalación y Configuración
+
+#### Requisitos del sistema
+
+| Componente | Versión mínima | Recomendada |
+|------------|----------------|-------------|
+| Python     | 3.8+           | 3.11+       |
+| Quarto     | 1.3+           | 1.4+        |
+| Jupyter    | 6.0+           | 7.0+        |
+
+#### Instalación paso a paso
+
+```bash
+# 1. Instalar Quarto
+curl -LO https://quarto.org/download/latest/quarto-linux-amd64.deb
+sudo dpkg -i quarto-linux-amd64.deb
+
+# 2. Verificar instalación
+quarto --version
+```
+
+```python
+# 3. Instalar dependencias de Python
+pip install jupyter pandas matplotlib plotly seaborn
+```
+
+### 3. Configuración de Proyecto
+
+#### Estructura de archivos recomendada
+
+```
+proyecto/
+├── _quarto.yml         # Configuración principal
+├── index.qmd           # Página principal
+├── docs/               # Documentación
+│   ├── api.qmd
+│   └── tutorials.qmd
+├── examples/           # Ejemplos de código
+├── data/              # Datos de ejemplo
+└── assets/            # Recursos estáticos
+    ├── css/
+    └── images/
+```
+
+#### Archivo de configuración `_quarto.yml`
+
+```yaml
+project:
+  type: website
+  
+website:
+  title: "Mi Proyecto"
+  navbar:
+    left:
+      - href: index.qmd
+        text: Inicio
+      - href: docs/
+        text: Documentación
+        
+format:
+  html:
+    theme: cosmo
+    css: assets/css/styles.css
+    toc: true
+    code-fold: true
+```
+
+## 4. Elementos de Documentación
+
+### Callouts informativos
+
+::: {.callout-warning}
+## Advertencia importante
+
+Siempre respalda tus datos antes de ejecutar scripts de migración.
+:::
+
+::: {.callout-tip}
+## Consejo profesional
+
+Usa entornos virtuales para aislar las dependencias de cada proyecto.
+:::
+
+### Código con explicaciones
+
+```{python}
+#| echo: true
+#| output: true
+
+import pandas as pd
+import numpy as np
+
+def procesar_datos(archivo_csv):
+    """
+    Procesa un archivo CSV y devuelve estadísticas básicas.
+    
+    Parámetros:
+    -----------
+    archivo_csv : str
+        Ruta al archivo CSV
+        
+    Retorna:
+    --------
+    dict : Diccionario con estadísticas
+    """
+    df = pd.read_csv(archivo_csv)
+    
+    estadisticas = {
+        'filas': len(df),
+        'columnas': len(df.columns),
+        'valores_nulos': df.isnull().sum().sum(),
+        'memoria_mb': df.memory_usage(deep=True).sum() / 1024**2
+    }
+    
+    return estadisticas
+
+# Ejemplo de uso
+print("Función definida correctamente ✅")
+```
+
+### Tablas de referencia
+
+#### Códigos de estado HTTP
+
+| Código | Significado | Descripción |
+|--------|-------------|-------------|
+| 200    | OK          | Solicitud exitosa |
+| 201    | Created     | Recurso creado |
+| 400    | Bad Request | Solicitud malformada |
+| 401    | Unauthorized| No autorizado |
+| 404    | Not Found   | Recurso no encontrado |
+| 500    | Server Error| Error del servidor |
+
+### Diagramas con Mermaid
+
+```{mermaid}
+graph TD
+    A[Usuario] --> B[Frontend]
+    B --> C[API Gateway]
+    C --> D[Microservicio Auth]
+    C --> E[Microservicio Datos]
+    D --> F[(Base de Datos)]
+    E --> F
+    
+    style A fill:#e1f5fe
+    style F fill:#f3e5f5
+```
+
+### Ecuaciones matemáticas
+
+La fórmula para calcular la media móvil exponencial es:
+
+$$EMA_t = \alpha \cdot P_t + (1-\alpha) \cdot EMA_{t-1}$$
+
+Donde:
+- $EMA_t$ = Media móvil exponencial en el tiempo $t$
+- $P_t$ = Precio en el tiempo $t$  
+- $\alpha$ = Factor de suavizado $(0 < \alpha \leq 1)$
+
+## 5. API Reference
+
+### Función: `analizar_sentimiento()`
+
+**Sintaxis:**
+```python
+resultado = analizar_sentimiento(texto, modelo='vader')
+```
+
+**Parámetros:**
+
+- `texto` (str): El texto a analizar
+- `modelo` (str, opcional): Modelo a usar ('vader', 'textblob'). Por defecto: 'vader'
+
+**Retorna:**
+
+- `dict`: Diccionario con puntuaciones de sentimiento
+
+**Ejemplo:**
+
+```{python}
+def analizar_sentimiento(texto, modelo='vader'):
+    """Simula análisis de sentimiento"""
+    import random
+    
+    puntuaciones = {
+        'positivo': random.uniform(0, 1),
+        'negativo': random.uniform(0, 1),
+        'neutro': random.uniform(0, 1)
+    }
+    
+    # Normalizar puntuaciones
+    total = sum(puntuaciones.values())
+    puntuaciones = {k: v/total for k, v in puntuaciones.items()}
+    
+    return puntuaciones
+
+# Ejemplo de uso
+resultado = analizar_sentimiento("Este producto es excelente!")
+print(f"Análisis de sentimiento: {resultado}")
+```
+
+## 6. Mejores Prácticas
+
+### Estilo de código
+
+::: {.panel-tabset}
+
+## Python
+
+```python
+# ✅ Correcto: nombres descriptivos y comentarios
+def calcular_media_movil(precios, ventana=20):
+    """Calcula la media móvil de una serie de precios."""
+    return precios.rolling(window=ventana).mean()
+
+# ❌ Incorrecto: nombres poco descriptivos
+def calc(p, w=20):
+    return p.rolling(window=w).mean()
+```
+
+## SQL
+
+```sql
+-- ✅ Correcto: formato legible
+SELECT 
+    usuario_id,
+    COUNT(*) as total_pedidos,
+    SUM(monto) as total_gastado
+FROM pedidos 
+WHERE fecha >= '2023-01-01'
+GROUP BY usuario_id
+ORDER BY total_gastado DESC;
+```
+
+## YAML
+
+```yaml
+# ✅ Correcto: estructura clara y comentarios
+database:
+  host: localhost
+  port: 5432
+  name: production_db  # Base de datos principal
+  
+cache:
+  redis:
+    host: redis-server
+    ttl: 3600  # Tiempo de vida en segundos
+```
+
+:::
+
+### Checklist de documentación
+
+- [ ] **Contexto claro**: ¿Por qué existe este código/función?
+- [ ] **Ejemplos prácticos**: Al menos un ejemplo de uso
+- [ ] **Parámetros documentados**: Tipos y descripciones
+- [ ] **Casos edge**: Qué pasa con inputs inválidos
+- [ ] **Dependencias**: Qué librerías/servicios necesita
+- [ ] **Performance**: Consideraciones de rendimiento si aplica
+
+## 7. Testing y Validación
+
+### Pruebas unitarias
+
+```{python}
+import unittest
+
+class TestAnalisisSentimiento(unittest.TestCase):
+    
+    def test_sentimiento_positivo(self):
+        """Prueba que texto positivo devuelve sentimiento positivo."""
+        resultado = analizar_sentimiento("¡Excelente trabajo!")
+        self.assertGreater(resultado['positivo'], 0.3)
+    
+    def test_entrada_vacia(self):
+        """Prueba manejo de string vacío."""
+        resultado = analizar_sentimiento("")
+        self.assertIsInstance(resultado, dict)
+        self.assertIn('neutro', resultado)
+
+# Ejecutar pruebas (en un entorno real)
+# unittest.main()
+print("Pruebas definidas correctamente ✅")
+```
+
+## Referencias
+
+- [Quarto Documentation](https://quarto.org/docs/)
+- [Python Style Guide (PEP 8)](https://pep8.org/)
+- [Markdown Guide](https://www.markdownguide.org/)
+
+---
+
+*Esta documentación fue generada con Quarto. Para sugerencias o correcciones, abre un issue en el repositorio.*

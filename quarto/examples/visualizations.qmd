@@ -1,0 +1,292 @@
+---
+title: "Visualizaciones Interactivas"
+author: "Matriz Team"
+date: today
+format: 
+  html:
+    code-fold: true
+    code-tools: true
+---
+
+# Visualizaciones Avanzadas con Plotly
+
+Este documento demuestra la creación de visualizaciones interactivas usando Plotly y Python.
+
+## Configuración inicial
+
+```{python}
+import plotly.graph_objects as go
+import plotly.express as px
+import pandas as pd
+import numpy as np
+from plotly.subplots import make_subplots
+
+# Configurar Plotly para mostrar gráficos en HTML
+import plotly.io as pio
+pio.renderers.default = "plotly_mimetype+notebook"
+```
+
+## Generar datos de ejemplo
+
+```{python}
+# Dataset para análisis financiero
+np.random.seed(42)
+dates = pd.date_range('2023-01-01', periods=252, freq='D')
+initial_price = 100
+
+# Simular precios de acciones con random walk
+returns = np.random.normal(0.001, 0.02, len(dates))
+prices = [initial_price]
+for r in returns[1:]:
+    prices.append(prices[-1] * (1 + r))
+
+df_stocks = pd.DataFrame({
+    'fecha': dates,
+    'precio': prices,
+    'volumen': np.random.normal(1000000, 200000, len(dates)),
+    'empresa': 'TechCorp'
+})
+
+# Dataset para análisis de ventas por productos
+productos = ['Laptop', 'Smartphone', 'Tablet', 'Smartwatch', 'Auriculares']
+meses = ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic']
+
+df_ventas = pd.DataFrame({
+    'producto': np.repeat(productos, len(meses)),
+    'mes': meses * len(productos),
+    'ventas': np.random.normal(1000, 300, len(productos) * len(meses)),
+    'beneficio': np.random.normal(200, 100, len(productos) * len(meses))
+})
+
+print("Datos preparados ✅")
+```
+
+## 1. Gráfico de Series Temporales Interactivo
+
+```{python}
+#| fig-cap: "Evolución del precio de acciones con volumen"
+
+# Crear subplots
+fig = make_subplots(
+    rows=2, cols=1,
+    shared_xaxes=True,
+    vertical_spacing=0.1,
+    subplot_titles=('Precio de Acciones', 'Volumen de Transacciones'),
+    row_heights=[0.7, 0.3]
+)
+
+# Gráfico de precio
+fig.add_trace(
+    go.Scatter(
+        x=df_stocks['fecha'],
+        y=df_stocks['precio'],
+        mode='lines',
+        name='Precio',
+        line=dict(color='#1f77b4', width=2),
+        hovertemplate='<b>%{y:.2f}€</b><br>Fecha: %{x}<extra></extra>'
+    ),
+    row=1, col=1
+)
+
+# Gráfico de volumen
+fig.add_trace(
+    go.Bar(
+        x=df_stocks['fecha'],
+        y=df_stocks['volumen'],
+        name='Volumen',
+        marker_color='rgba(55, 128, 191, 0.6)',
+        hovertemplate='<b>%{y:,.0f}</b> acciones<br>Fecha: %{x}<extra></extra>'
+    ),
+    row=2, col=1
+)
+
+# Actualizar layout
+fig.update_layout(
+    title='Análisis de Mercado - TechCorp',
+    showlegend=False,
+    height=600,
+    hovermode='x unified'
+)
+
+fig.update_xaxes(title_text="Fecha", row=2, col=1)
+fig.update_yaxes(title_text="Precio (€)", row=1, col=1)
+fig.update_yaxes(title_text="Volumen", row=2, col=1)
+
+fig.show()
+```
+
+## 2. Mapa de Calor Interactivo
+
+```{python}
+#| fig-cap: "Ventas por producto y mes"
+
+# Crear pivot table
+pivot_ventas = df_ventas.pivot(index='producto', columns='mes', values='ventas')
+
+fig = px.imshow(
+    pivot_ventas,
+    labels=dict(x="Mes", y="Producto", color="Ventas"),
+    x=meses,
+    y=productos,
+    color_continuous_scale='RdYlBu_r',
+    aspect="auto"
+)
+
+fig.update_layout(
+    title='Mapa de Calor: Ventas por Producto y Mes',
+    height=500
+)
+
+fig.show()
+```
+
+## 3. Gráfico de Burbujas 3D
+
+```{python}
+#| fig-cap: "Análisis de rendimiento: Ventas vs Beneficio por Producto"
+
+# Agregar datos por producto
+df_agg = df_ventas.groupby('producto').agg({
+    'ventas': ['sum', 'mean'],
+    'beneficio': ['sum', 'mean']
+}).round(2)
+
+df_agg.columns = ['ventas_total', 'ventas_promedio', 'beneficio_total', 'beneficio_promedio']
+df_agg = df_agg.reset_index()
+
+# Calcular margen de beneficio
+df_agg['margen'] = (df_agg['beneficio_total'] / df_agg['ventas_total'] * 100).round(1)
+
+fig = px.scatter_3d(
+    df_agg,
+    x='ventas_total',
+    y='beneficio_total',
+    z='margen',
+    size='ventas_promedio',
+    color='producto',
+    hover_data=['ventas_promedio', 'beneficio_promedio'],
+    title='Análisis 3D: Rendimiento por Producto'
+)
+
+fig.update_layout(
+    scene=dict(
+        xaxis_title='Ventas Totales',
+        yaxis_title='Beneficio Total',
+        zaxis_title='Margen (%)'
+    ),
+    height=600
+)
+
+fig.show()
+```
+
+## 4. Dashboard con Subplots
+
+```{python}
+#| fig-cap: "Dashboard completo de análisis"
+
+# Crear dashboard con múltiples visualizaciones
+fig = make_subplots(
+    rows=2, cols=2,
+    subplot_titles=('Ventas por Producto', 'Distribución de Beneficios', 
+                   'Evolución Mensual', 'Comparación Ventas vs Beneficio'),
+    specs=[[{"type": "bar"}, {"type": "box"}],
+           [{"type": "scatter"}, {"type": "scatter"}]]
+)
+
+# 1. Gráfico de barras - Ventas por producto
+ventas_por_producto = df_ventas.groupby('producto')['ventas'].sum()
+fig.add_trace(
+    go.Bar(x=ventas_por_producto.index, y=ventas_por_producto.values,
+           name='Ventas Totales', marker_color='skyblue'),
+    row=1, col=1
+)
+
+# 2. Box plot - Distribución de beneficios
+for i, producto in enumerate(productos):
+    data = df_ventas[df_ventas['producto'] == producto]['beneficio']
+    fig.add_trace(
+        go.Box(y=data, name=producto, showlegend=False),
+        row=1, col=2
+    )
+
+# 3. Evolución mensual
+ventas_mensuales = df_ventas.groupby('mes')['ventas'].sum()
+meses_ordenados = ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic']
+fig.add_trace(
+    go.Scatter(x=meses_ordenados, y=[ventas_mensuales[mes] for mes in meses_ordenados],
+               mode='lines+markers', name='Tendencia Mensual'),
+    row=2, col=1
+)
+
+# 4. Scatter plot - Ventas vs Beneficio
+fig.add_trace(
+    go.Scatter(x=df_ventas['ventas'], y=df_ventas['beneficio'],
+               mode='markers', name='Ventas vs Beneficio',
+               marker=dict(color=df_ventas['ventas'], colorscale='Viridis', showscale=True)),
+    row=2, col=2
+)
+
+fig.update_layout(
+    height=800,
+    title_text="Dashboard de Análisis de Ventas",
+    showlegend=False
+)
+
+fig.show()
+```
+
+## 5. Gráfico de Gantt para Planificación
+
+```{python}
+#| fig-cap: "Cronograma de proyecto"
+
+# Datos de ejemplo para un proyecto
+df_proyecto = pd.DataFrame([
+    dict(Tarea="Análisis de Requisitos", Inicio='2023-01-01', Fin='2023-01-15', Responsable='Data Team'),
+    dict(Tarea="Diseño de Arquitectura", Inicio='2023-01-10', Fin='2023-01-25', Responsable='Tech Team'),
+    dict(Tarea="Desarrollo Backend", Inicio='2023-01-20', Fin='2023-02-20', Responsable='Dev Team'),
+    dict(Tarea="Desarrollo Frontend", Inicio='2023-02-01', Fin='2023-02-28', Responsable='UI Team'),
+    dict(Tarea="Testing", Inicio='2023-02-15', Fin='2023-03-10', Responsable='QA Team'),
+    dict(Tarea="Deployment", Inicio='2023-03-05', Fin='2023-03-15', Responsable='DevOps Team'),
+])
+
+fig = px.timeline(
+    df_proyecto,
+    x_start="Inicio",
+    x_end="Fin",
+    y="Tarea",
+    color="Responsable",
+    title="Cronograma del Proyecto Matriz"
+)
+
+fig.update_yaxes(autorange="reversed")
+fig.update_layout(height=400)
+
+fig.show()
+```
+
+## Conclusiones
+
+::: {.callout-tip}
+## Capacidades de Visualización
+
+Este documento demuestra las potentes capacidades de visualización disponibles en Quarto:
+
+- ✅ **Gráficos interactivos** con Plotly
+- ✅ **Dashboards complejos** con múltiples subplots  
+- ✅ **Visualizaciones 3D** para análisis avanzado
+- ✅ **Mapas de calor** para datos matriciales
+- ✅ **Cronogramas** para gestión de proyectos
+
+:::
+
+## Recursos adicionales
+
+- [Plotly Python Documentation](https://plotly.com/python/)
+- [Quarto Figures](https://quarto.org/docs/authoring/figures.html)
+- [Interactive Dashboards](https://quarto.org/docs/interactive/)
+
+---
+
+*Todas las visualizaciones en este documento son completamente interactivas. Pasa el cursor sobre los elementos para ver detalles adicionales.*

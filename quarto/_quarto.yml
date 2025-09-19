@@ -1,0 +1,48 @@
+project:
+  type: website
+  title: "Matriz - Quarto Section"
+  output-dir: _output
+
+website:
+  title: "Matriz - Quarto"
+  navbar:
+    title: "Matriz - Quarto"
+    left:
+      - href: index.qmd
+        text: Home
+    right:
+      - href: https://github.com/JJS001/matriz
+        text: GitHub
+        target: _blank
+
+  sidebar:
+    style: "docked"
+    background: light
+    contents:
+      - section: "Análisis"
+        contents:
+          - href: examples/data-analysis.qmd
+            text: "Análisis de Datos"
+          - href: examples/visualizations.qmd
+            text: "Visualizaciones"
+      - section: "Documentación"
+        contents:
+          - href: examples/technical-docs.qmd
+            text: "Documentación Técnica"
+          - href: examples/tutorials.qmd
+            text: "Tutoriales"
+
+format:
+  html:
+    theme: cosmo
+    css: styles.css
+    toc: true
+    toc-location: left
+    code-fold: true
+    code-tools: true
+    fig-width: 8
+    fig-height: 6
+    
+execute:
+  freeze: auto
+  cache: true
