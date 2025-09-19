@@ -1,0 +1,257 @@
+/* Estilos personalizados para Quarto en Matriz */
+
+/* Variables CSS */
+:root {
+  --matriz-primary: #007cba;
+  --matriz-secondary: #6c757d;
+  --matriz-success: #28a745;
+  --matriz-info: #17a2b8;
+  --matriz-warning: #ffc107;
+  --matriz-danger: #dc3545;
+  --matriz-light: #f8f9fa;
+  --matriz-dark: #343a40;
+}
+
+/* Estilos generales */
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  line-height: 1.6;
+}
+
+/* Encabezados */
+h1, h2, h3, h4, h5, h6 {
+  color: var(--matriz-dark);
+  margin-top: 2rem;
+  margin-bottom: 1rem;
+}
+
+h1 {
+  border-bottom: 3px solid var(--matriz-primary);
+  padding-bottom: 0.5rem;
+}
+
+/* Enlaces */
+a {
+  color: var(--matriz-primary);
+  text-decoration: none;
+}
+
+a:hover {
+  color: #005a8b;
+  text-decoration: underline;
+}
+
+/* Código */
+code {
+  background-color: var(--matriz-light);
+  padding: 0.2rem 0.4rem;
+  border-radius: 0.25rem;
+  font-size: 0.9em;
+}
+
+pre {
+  background-color: #f8f9fa;
+  border: 1px solid #e9ecef;
+  border-radius: 0.5rem;
+  padding: 1rem;
+  overflow-x: auto;
+}
+
+/* Bloques de código con sintaxis highlighting */
+.sourceCode {
+  background-color: #f8f9fa !important;
+  border: 1px solid #e9ecef;
+  border-radius: 0.5rem;
+}
+
+/* Callouts personalizados */
+.callout {
+  border-left: 4px solid var(--matriz-primary);
+  background-color: rgba(0, 124, 186, 0.1);
+  margin: 1rem 0;
+  padding: 1rem;
+  border-radius: 0 0.5rem 0.5rem 0;
+}
+
+.callout-note {
+  border-left-color: var(--matriz-info);
+  background-color: rgba(23, 162, 184, 0.1);
+}
+
+.callout-tip {
+  border-left-color: var(--matriz-success);
+  background-color: rgba(40, 167, 69, 0.1);
+}
+
+.callout-warning {
+  border-left-color: var(--matriz-warning);
+  background-color: rgba(255, 193, 7, 0.1);
+}
+
+.callout-important {
+  border-left-color: var(--matriz-danger);
+  background-color: rgba(220, 53, 69, 0.1);
+}
+
+/* Tablas */
+table {
+  border-collapse: collapse;
+  width: 100%;
+  margin: 1rem 0;
+}
+
+th, td {
+  border: 1px solid #dee2e6;
+  padding: 0.75rem;
+  text-align: left;
+}
+
+th {
+  background-color: var(--matriz-primary);
+  color: white;
+  font-weight: 600;
+}
+
+tr:nth-child(even) {
+  background-color: var(--matriz-light);
+}
+
+/* Figuras */
+figure {
+  text-align: center;
+  margin: 2rem 0;
+}
+
+figcaption {
+  font-style: italic;
+  color: var(--matriz-secondary);
+  margin-top: 0.5rem;
+}
+
+/* Navegación */
+.navbar {
+  background-color: var(--matriz-primary) !important;
+}
+
+.navbar-brand, .nav-link {
+  color: white !important;
+}
+
+.nav-link:hover {
+  color: #e9ecef !important;
+}
+
+/* Sidebar */
+.sidebar {
+  background-color: var(--matriz-light);
+  border-right: 1px solid #dee2e6;
+}
+
+/* Tabs */
+.panel-tabset .nav-tabs {
+  border-bottom: 2px solid var(--matriz-primary);
+}
+
+.panel-tabset .nav-link {
+  color: var(--matriz-secondary);
+  border: none;
+  border-bottom: 2px solid transparent;
+}
+
+.panel-tabset .nav-link.active {
+  color: var(--matriz-primary);
+  border-bottom-color: var(--matriz-primary);
+  background-color: transparent;
+}
+
+/* Botones */
+.btn-primary {
+  background-color: var(--matriz-primary);
+  border-color: var(--matriz-primary);
+}
+
+.btn-primary:hover {
+  background-color: #005a8b;
+  border-color: #005a8b;
+}
+
+/* Grid layout */
+.grid {
+  display: grid;
+  gap: 1.5rem;
+  margin: 1rem 0;
+}
+
+.g-col-6 {
+  grid-column: span 6;
+}
+
+/* Cards para contenido destacado */
+.card {
+  border: 1px solid #dee2e6;
+  border-radius: 0.5rem;
+  padding: 1.5rem;
+  margin: 1rem 0;
+  background-color: white;
+  box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+}
+
+.card-header {
+  background-color: var(--matriz-primary);
+  color: white;
+  padding: 0.75rem 1.5rem;
+  margin: -1.5rem -1.5rem 1rem -1.5rem;
+  border-radius: 0.5rem 0.5rem 0 0;
+  font-weight: 600;
+}
+
+/* Elementos interactivos */
+.highlight {
+  background-color: rgba(255, 193, 7, 0.3);
+  padding: 0.2rem 0.4rem;
+  border-radius: 0.25rem;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  .grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .g-col-6 {
+    grid-column: span 1;
+  }
+  
+  table {
+    font-size: 0.9rem;
+  }
+  
+  th, td {
+    padding: 0.5rem;
+  }
+}
+
+/* Animaciones sutiles */
+.card, .callout {
+  transition: transform 0.2s ease-in-out;
+}
+
+.card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+}
+
+/* Estilos para impresión */
+@media print {
+  .sidebar, .navbar {
+    display: none !important;
+  }
+  
+  body {
+    margin: 0;
+  }
+  
+  h1, h2, h3 {
+    page-break-after: avoid;
+  }
+}

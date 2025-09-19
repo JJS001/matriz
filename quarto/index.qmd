@@ -1,0 +1,90 @@
+---
+title: "Matriz - Quarto"
+---
+
+# Bienvenido a la Sección Quarto
+
+Esta es la sección dedicada a documentos y análisis creados con [Quarto](https://quarto.org/), una herramienta moderna para publicación científica y técnica.
+
+## ¿Qué es Quarto?
+
+Quarto es una plataforma de publicación científica y técnica de código abierto basada en Pandoc. Permite crear documentos dinámicos que combinan código, resultados y narrativa usando:
+
+- **Python** 🐍
+- **R** 📊  
+- **Julia** ⚡
+- **Observable JS** 📈
+
+## Contenido Disponible
+
+:::{.panel-tabset}
+
+## Análisis de Datos
+- Reportes interactivos con visualizaciones
+- Estudios estadísticos
+- Análisis exploratorio de datos
+
+## Documentación Técnica
+- Guías y tutoriales detallados
+- Documentación de APIs
+- Manuales de usuario
+
+## Investigaciones
+- Estudios y análisis científicos
+- Papers y artículos técnicos
+- Casos de estudio
+
+## Dashboards
+- Paneles de control interactivos
+- Métricas en tiempo real
+- Visualizaciones dinámicas
+
+:::
+
+## Ejemplos Disponibles
+
+::: {.grid}
+
+::: {.g-col-6}
+### 📊 Análisis de Datos
+[Ver ejemplo →](examples/data-analysis.qmd)
+
+Análisis exploratorio de datos con Python y pandas.
+:::
+
+::: {.g-col-6}
+### 📈 Visualizaciones
+[Ver ejemplo →](examples/visualizations.qmd)
+
+Gráficos interactivos con Plotly y Matplotlib.
+:::
+
+::: {.g-col-6}
+### 📝 Documentación
+[Ver ejemplo →](examples/technical-docs.qmd)
+
+Guías técnicas con código ejecutable.
+:::
+
+::: {.g-col-6}
+### 🎓 Tutoriales
+[Ver ejemplo →](examples/tutorials.qmd)
+
+Tutoriales paso a paso para aprender.
+:::
+
+:::
+
+## Configuración
+
+Esta sección de Quarto está configurada para:
+
+- ✅ **Integración con Jekyll**: Los documentos se renderizan como HTML estático
+- ✅ **Código ejecutable**: Soporte para Python, R, Julia y Observable
+- ✅ **Estilos responsivos**: Diseño adaptable a diferentes dispositivos
+- ✅ **Navegación intuitiva**: Sidebar y tabla de contenidos
+- ✅ **Herramientas de código**: Opción para mostrar/ocultar código
+
+---
+
+*Para aprender más sobre Quarto, visita la [documentación oficial](https://quarto.org/docs/).*

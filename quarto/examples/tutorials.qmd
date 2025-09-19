@@ -1,0 +1,341 @@
+---
+title: "Tutorial: Primeros Pasos con Quarto"
+author: "Matriz Team"
+date: today
+format: 
+  html:
+    code-fold: false
+    code-tools: true
+    toc: true
+    number-sections: true
+---
+
+# Tutorial: Introducción a Quarto
+
+¡Bienvenido! En este tutorial aprenderás los fundamentos para crear documentos dinámicos con Quarto.
+
+## ¿Qué aprenderás?
+
+Al final de este tutorial serás capaz de:
+
+::: {.incremental}
+- Crear tu primer documento Quarto
+- Combinar texto, código y visualizaciones
+- Renderizar documentos a HTML, PDF y más formatos
+- Configurar opciones de ejecución de código
+- Crear contenido interactivo
+:::
+
+## Paso 1: Configuración inicial
+
+### Verificar instalación
+
+Primero, verifica que Quarto esté instalado correctamente:
+
+```bash
+quarto --version
+```
+
+::: {.callout-note}
+Si no tienes Quarto instalado, visita [quarto.org](https://quarto.org/docs/get-started/) para instrucciones de instalación.
+:::
+
+### Crear tu primer documento
+
+1. Crea un nuevo archivo llamado `mi-primer-documento.qmd`
+2. Agrega el siguiente contenido:
+
+```markdown
+---
+title: "Mi Primer Documento"
+author: "Tu Nombre"
+format: html
+---
+
+# Introducción
+
+Este es mi primer documento con Quarto.
+
+## Un poco de código Python
+
+```{python}
+print("¡Hola, Quarto!")
+```
+```
+
+## Paso 2: Elementos básicos
+
+### Header YAML
+
+El header YAML (entre `---`) controla las opciones del documento:
+
+```yaml
+---
+title: "Título del documento"
+author: "Tu nombre"
+date: today
+format: 
+  html:
+    toc: true
+    code-fold: true
+execute:
+  echo: true
+  warning: false
+---
+```
+
+### Texto y Markdown
+
+Quarto usa Markdown extendido. Aquí algunos elementos útiles:
+
+- **Negrita** y *cursiva*
+- `código inline`
+- [Enlaces](https://quarto.org)
+- Listas numeradas y con viñetas
+
+> Las citas se ven así
+
+### Bloques de código
+
+```{python}
+#| echo: true
+#| eval: true
+
+# Este código se ejecutará y mostrará
+import matplotlib.pyplot as plt
+import numpy as np
+
+x = np.linspace(0, 10, 100)
+y = np.sin(x)
+
+plt.figure(figsize=(8, 4))
+plt.plot(x, y, 'b-', linewidth=2)
+plt.title('Función Seno')
+plt.xlabel('x')
+plt.ylabel('sin(x)')
+plt.grid(True, alpha=0.3)
+plt.show()
+```
+
+## Paso 3: Opciones de código
+
+### Controlar la ejecución
+
+Usa opciones en comentarios especiales para controlar cómo se ejecuta el código:
+
+```{python}
+#| echo: false
+#| eval: true
+#| fig-cap: "Gráfico generado sin mostrar código"
+
+# Este código se ejecuta pero no se muestra
+plt.figure(figsize=(6, 4))
+plt.bar(['A', 'B', 'C', 'D'], [23, 45, 56, 78])
+plt.title('Datos de Ejemplo')
+plt.ylabel('Valores')
+plt.show()
+```
+
+### Opciones útiles
+
+| Opción | Descripción | Valores |
+|--------|-------------|---------|
+| `echo` | Mostrar código | `true`, `false` |
+| `eval` | Ejecutar código | `true`, `false` |
+| `include` | Incluir en output | `true`, `false` |
+| `warning` | Mostrar warnings | `true`, `false` |
+| `fig-cap` | Título de figura | texto |
+| `fig-width` | Ancho de figura | número |
+
+## Paso 4: Contenido interactivo
+
+### Tabs interactivos
+
+::: {.panel-tabset}
+
+## Código Python
+
+```{python}
+# Análisis simple de datos
+import pandas as pd
+
+datos = {'nombre': ['Ana', 'Luis', 'María'], 
+         'edad': [25, 30, 35],
+         'ciudad': ['Madrid', 'Barcelona', 'Valencia']}
+
+df = pd.DataFrame(datos)
+print(df)
+```
+
+## Código R
+
+```r
+# install.packages("ggplot2")  # Si no está instalado
+library(ggplot2)
+
+# Crear datos de ejemplo
+data <- data.frame(
+  x = 1:10,
+  y = rnorm(10)
+)
+
+# Crear gráfico
+ggplot(data, aes(x, y)) + 
+  geom_point() + 
+  geom_smooth() +
+  labs(title = "Datos aleatorios")
+```
+
+## SQL
+
+```sql
+SELECT 
+    nombre,
+    edad,
+    CASE 
+        WHEN edad < 30 THEN 'Joven'
+        WHEN edad < 40 THEN 'Adulto'
+        ELSE 'Mayor'
+    END as categoria
+FROM usuarios
+ORDER BY edad;
+```
+
+:::
+
+### Callouts informativos
+
+::: {.callout-tip}
+## 💡 Consejo
+
+Los callouts son excelentes para destacar información importante o dar consejos adicionales.
+:::
+
+::: {.callout-warning}
+## ⚠️ Cuidado
+
+Siempre verifica que tu código funciona antes de renderizar el documento final.
+:::
+
+::: {.callout-important}
+## 📋 Importante
+
+Los archivos .qmd deben guardarse con codificación UTF-8 para evitar problemas con caracteres especiales.
+:::
+
+## Paso 5: Ejercicios prácticos
+
+### Ejercicio 1: Tu primera visualización
+
+Crea un gráfico que muestre la evolución de datos a lo largo del tiempo:
+
+```{python}
+#| code-fold: true
+#| fig-cap: "Evolución de ventas mensuales"
+
+# Datos de ejemplo
+meses = ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun']
+ventas = [120, 135, 148, 162, 155, 180]
+
+plt.figure(figsize=(10, 5))
+plt.plot(meses, ventas, marker='o', linewidth=2, markersize=8)
+plt.title('Evolución de Ventas Mensuales', fontsize=16)
+plt.ylabel('Ventas (miles €)')
+plt.grid(True, alpha=0.3)
+
+# Agregar valores en cada punto
+for i, v in enumerate(ventas):
+    plt.text(i, v + 5, str(v), ha='center', fontweight='bold')
+
+plt.tight_layout()
+plt.show()
+```
+
+### Ejercicio 2: Tabla interactiva
+
+```{python}
+# Crear una tabla con datos de ejemplo
+datos_empleados = {
+    'Nombre': ['Ana García', 'Luis Martín', 'María López', 'Carlos Ruiz'],
+    'Departamento': ['Ventas', 'IT', 'Marketing', 'IT'],
+    'Salario': [45000, 55000, 48000, 60000],
+    'Años de experiencia': [3, 5, 4, 7]
+}
+
+df_empleados = pd.DataFrame(datos_empleados)
+
+# Calcular estadísticas
+print("📊 Resumen de datos:")
+print(f"Total empleados: {len(df_empleados)}")
+print(f"Salario promedio: {df_empleados['Salario'].mean():,.0f}€")
+print(f"Experiencia promedia: {df_empleados['Años de experiencia'].mean():.1f} años")
+print("\n📋 Tabla de empleados:")
+print(df_empleados.to_string(index=False))
+```
+
+## Paso 6: Renderizar tu documento
+
+### Desde la línea de comandos
+
+```bash
+# Renderizar a HTML
+quarto render mi-documento.qmd
+
+# Renderizar a PDF (requiere LaTeX)
+quarto render mi-documento.qmd --to pdf
+
+# Renderizar a Word
+quarto render mi-documento.qmd --to docx
+```
+
+### Desde Python/Jupyter
+
+```python
+import subprocess
+
+# Renderizar documento
+resultado = subprocess.run(['quarto', 'render', 'mi-documento.qmd'], 
+                          capture_output=True, text=True)
+
+if resultado.returncode == 0:
+    print("✅ Documento renderizado correctamente")
+else:
+    print("❌ Error al renderizar:", resultado.stderr)
+```
+
+## Próximos pasos
+
+¡Felicidades! Has completado tu primer tutorial de Quarto. Ahora puedes:
+
+### Nivel intermedio
+- [ ] Explorar diferentes themes y layouts
+- [ ] Crear sitios web con múltiples páginas
+- [ ] Usar parámetros para documentos dinámicos
+- [ ] Integrar con bases de datos
+
+### Nivel avanzado  
+- [ ] Crear extensiones personalizadas
+- [ ] Publicar en GitHub Pages
+- [ ] Automatizar con GitHub Actions
+- [ ] Crear dashboards interactivos
+
+## Recursos adicionales
+
+### Documentación oficial
+- [Guía de Quarto](https://quarto.org/docs/guide/)
+- [Galería de ejemplos](https://quarto.org/docs/gallery/)
+- [Referencias de formato](https://quarto.org/docs/reference/)
+
+### Comunidad
+- [Foro de Quarto](https://github.com/quarto-dev/quarto-cli/discussions)
+- [Stack Overflow - Tag Quarto](https://stackoverflow.com/questions/tagged/quarto)
+
+---
+
+::: {.callout-note}
+## 🎉 ¡Completado!
+
+Has terminado el tutorial básico de Quarto. ¡Ahora es tu turno de experimentar y crear contenido increíble!
+:::
+
+*Tutorial creado con ❤️ usando Quarto*
