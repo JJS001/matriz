@@ -9,10 +9,10 @@ Este es el sitio web principal de Matriz, donde encontrarás:
 
 ## Secciones
 
-- **[Quarto](/quarto/)** - Documentos y análisis creados con Quarto
-- **[Demos](/demos/)** - Demostraciones interactivas y ejemplos
-- **[Repositorios](/repositorios/)** - Colección de proyectos y código
-- **[Contacto](/contacto/)** - Información de contacto
+- **[Quarto]({{ "/quarto/" | relative_url }})** - Documentos y análisis creados con Quarto
+- **[Demos]({{ "/demos/" | relative_url }})** - Demostraciones interactivas y ejemplos
+- **[Repositorios]({{ "/repositorios/" | relative_url }})** - Colección de proyectos y código
+- **[Contacto]({{ "/contacto/" | relative_url }})** - Información de contacto
 
 ## Acerca del proyecto
 
